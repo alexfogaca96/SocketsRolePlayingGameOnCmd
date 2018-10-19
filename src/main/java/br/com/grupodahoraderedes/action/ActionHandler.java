@@ -34,10 +34,7 @@ public class ActionHandler
 		try {
 			while (true) {
 				readCurrentScene();
-				final String answer = answerServerMessage();
-				if (isOneOfPlayerActions( answer )) {
-					readCurrentScene();
-				}
+				answerServerMessage();
 			}
 		} catch (final IOException e) {
 			ClientApplication.closeApplication( "Server não recebe nem manda nada." );
@@ -71,30 +68,10 @@ public class ActionHandler
 	{
 		String answer = null;
 		while (( answer = consoleReader.readLine() ) != null) {
-			if (!isOneOfPlayerActions( answer ) && !isInteger( answer )) {
-				System.out.println(
-					"Digite somente o número da opção desejada ou uma das ações padrão (inventory, equip <equipment>)!" );
-				return answer;
-			} else {
-				writer.println( answer );
-				return answer;
-			}
+			writer.println( answer );
+			return answer;
 		}
 		return answer;
-	}
-
-	private boolean isOneOfPlayerActions(
-		final String answer
-	)
-	{
-		final String[] splittedAnswer = answer.split( " " );
-		switch (splittedAnswer[ 0 ]) {
-			case "inventory":
-			case "equip":
-				return true;
-			default:
-				return false;
-		}
 	}
 
 	public static boolean isInteger(
